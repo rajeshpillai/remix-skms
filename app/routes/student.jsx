@@ -1,11 +1,85 @@
 import  { LinksFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { Link, Form } from "@remix-run/react";
 
 
-export default function IndexRoute() {
+export default function CreateStudent() {
   return (
-    <div className="text-4xl font-bold  mb-6">
-      <h1>Create New Student</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl mb-4">Create Student</h1>
+      <Form action="/admin/students" method="post" className="space-y-4">
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <label htmlFor="firstName" className="block">First Name</label>
+            <input type="text" id="firstName" name="firstName" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+          </div>
+          <div>
+            <label htmlFor="middleName" className="block">Middle Name</label>
+            <input type="text" id="middleName" name="middleName" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+          </div>
+          <div>
+            <label htmlFor="lastName" className="block">Last Name</label>
+            <input type="text" id="lastName" name="lastName" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="gender" className="block">Gender</label>
+            <select id="gender" name="gender" className="w-full mt-1 border border-gray-300 px-2 py-1">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="dateOfBirth" className="block">Date of Birth</label>
+            <input type="date" id="dateOfBirth" name="dateOfBirth" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="primaryAddress" className="block">Primary Address</label>
+          <textarea id="primaryAddress" name="primaryAddress" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="city" className="block">City</label>
+            <input type="text" id="city" name="city" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+          </div>
+          <div>
+            <label htmlFor="state" className="block">State</label>
+            <input type="text" id="state" name="state" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="country" className="block">Country</label>
+            <input type="text" id="country" name="country" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <label htmlFor="fathersName" className="block">Father's Name</label>
+            <input type="text" id="fathersName" name="fathersName" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+          </div>
+          <div>
+            <label htmlFor="mothersName" className="block">Mother's Name</label>
+            <input type="text" id="mothersName" name="mothersName" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+          </div>
+          <div>
+            <label htmlFor="guardianName" className="block">Guardian Name</label>
+            <input type="text" id="guardianName" name="guardianName" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Submit
+          </button>
+        </div>
+      </Form>
     </div>
   );
 }
