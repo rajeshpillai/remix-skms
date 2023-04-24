@@ -33,10 +33,11 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <Link to={`/`}>SKMS</Link>| 
         <Link to={`/signup`}>Sign Up</Link>| 
         <Link to={`/login`}>Sign In</Link>|
-        <Link to={`/admin/student/create`}>Create Student Record</Link>|
-        <Link to={`/admin/students`}>List Students</Link>|
+        <Link to={`/admin/students/create`}>Create Student Record</Link>|
+        <Link to={`/admin/students/list`}>List Students</Link>|
         <hr/>
         <Outlet />
         <ScrollRestoration />
