@@ -1,12 +1,30 @@
-import  { LinksFunction } from "@remix-run/node";
+import  { redirect } from "@remix-run/node";
 import { Link, Form } from "@remix-run/react";
+
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  console.log("Student Record: ", formData);
+  const response = await fetch('http://localhost:3000/api/students', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(Object.fromEntries(formData)),
+  });
+
+  if (response.ok) {
+    return redirect('/student');
+  } else {
+    return redirect('/admin/create-student', { status: 500 });
+  }
+};
 
 
 export default function CreateStudent() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl mb-4">Create Student</h1>
-      <Form action="/admin/students" method="post" className="space-y-4">
+      <Form  method="post" className="space-y-4">
         <div className="grid grid-cols-3 gap-4">
           <div>
             <label htmlFor="firstName" className="block">First Name</label>
