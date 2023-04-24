@@ -16,6 +16,7 @@ async function start() {
     build: path.join(process.cwd(), "build/index.js"),
   });
   
+  // Get all students
   app.get('/api/students', async (request, reply) => {
     try {
       const students = await prisma.student.findMany();
@@ -46,6 +47,22 @@ async function start() {
     }
   });
 
+  // Create new student
+  app.post('/api/students', async (request, reply) => {
+    try {
+      const studentData = request.body;
+      studentData.dateOfBirth = new Date(studentData.dateOfBirth);
+      studentData.address = studentData.primaryAddress;
+      console.log("StudentData3: ", studentData);
+      const createdStudent = await prisma.student.create({ data: studentData });
+      console.log("CreatedStudent: ", createdStudent);
+      reply.code(201).send(createdStudent);
+    } catch (error) {
+      // app.log.error(error);
+      console.error(error);
+      reply.code(500).send({ message: 'Failed to create student' });
+    }
+  });
 
 
 
