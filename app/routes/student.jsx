@@ -3,7 +3,13 @@ import { Link, Form } from "@remix-run/react";
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
-  console.log("Student Record: ", formData);
+  
+  const firstName = formData.get("firstName");
+  const middleName = formData.get("middleName");
+  const lastName = formData.get("lastName");
+
+  console.log({firstName, middleName, lastName});
+  console.log("Student Record: ", JSON.stringify(Object.fromEntries(formData)));
   const response = await fetch('http://localhost:3000/api/students', {
     method: 'POST',
     headers: {
