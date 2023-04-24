@@ -22,6 +22,7 @@ export default function Students() {
             <th className="border border-gray-300 p-2">Gender</th>
             <th className="border border-gray-300 p-2">City</th>
             <th className="border border-gray-300 p-2">State</th>
+            
           </tr>
         </thead>
         <tbody>
@@ -35,6 +36,12 @@ export default function Students() {
               <td className="border border-gray-300 p-2">{student.gender}</td>
               <td className="border border-gray-300 p-2">{student.city}</td>
               <td className="border border-gray-300 p-2">{student.state}</td>
+              <td className="border border-gray-300 p-2">
+                <Link to={`/admin/students/${student.id}`} className="inline-block bg-blue-500 text-white px-4 py-1 rounded">
+                  Show
+                </Link>
+              </td>
+
             </tr>
           ))}
         </tbody>
