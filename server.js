@@ -51,7 +51,9 @@ async function start() {
   app.post('/api/students', async (request, reply) => {
     try {
       const studentData = request.body;
-      studentData.dateOfBirth = new Date(studentData.dateOfBirth);
+      if (!studentData.dateOfBirth.trim() === "") {
+        studentData.dateOfBirth = new Date(studentData.dateOfBirth);
+      }
       studentData.address = studentData.primaryAddress;
       console.log("StudentData3: ", studentData);
       const createdStudent = await prisma.student.create({ data: studentData });

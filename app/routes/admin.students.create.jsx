@@ -19,9 +19,9 @@ export const action = async ({ request }) => {
   });
 
   if (response.ok) {
-    return redirect('/student');
+    return redirect('/admin/students/list');
   } else {
-    return redirect('/admin/create-student', { status: 500 });
+    return redirect('/admin/students/create', { status: 500 });
   }
 };
 
