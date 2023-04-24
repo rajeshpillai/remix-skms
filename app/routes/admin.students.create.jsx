@@ -1,12 +1,34 @@
 import  { redirect } from "@remix-run/node";
-import { Link, Form } from "@remix-run/react";
+import { Link, Form, useActionData } from "@remix-run/react";
+import { badRequest } from "~/utils/request.server";
 
+function validateDob (dob) {
+  console.log("DOB: ", dob);
+  if (dob.trim() == "") {
+    return "Please endter DOB in valid format (dd/mm/yyyy)";
+  }
+}
 export const action = async ({ request }) => {
   const formData = await request.formData();
   
   const firstName = formData.get("firstName");
   const middleName = formData.get("middleName");
   const lastName = formData.get("lastName");
+  const dateOfBirth = formData.get("dateOfBirth");
+
+  const fieldErrors = {
+    dateOfBirth: validateDob(dateOfBirth)
+  };
+  const fields = { dateOfBirth };
+  if (Object.values(fieldErrors).some(Boolean)) {
+    const err =  badRequest({
+      fieldErrors,
+      fields,
+      formError: null,
+    });
+    console.log("ERR: ", err);
+    return err;
+  }
 
   console.log({firstName, middleName, lastName});
   console.log("Student Record: ", JSON.stringify(Object.fromEntries(formData)));
@@ -27,6 +49,9 @@ export const action = async ({ request }) => {
 
 
 export default function CreateStudent() {
+  const actionData = useActionData();
+  console.log("ActionData: ", actionData);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl mb-4">Create Student</h1>
@@ -57,6 +82,15 @@ export default function CreateStudent() {
           <div>
             <label htmlFor="dateOfBirth" className="block">Date of Birth</label>
             <input type="date" id="dateOfBirth" name="dateOfBirth" className="w-full mt-1 border border-gray-300 px-2 py-1" />
+            {actionData?.fieldErrors?.dateOfBirth ? (
+                <p
+                  className="form-validation-error"
+                  id="dob-error"
+                  role="alert"
+                >
+                  {actionData.fieldErrors.dateOfBirth}
+                </p>
+              ) : null}
           </div>
         </div>
 
