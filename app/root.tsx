@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 
 import {
   Link,
@@ -10,9 +10,18 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import reset from "@unocss/reset/tailwind.css";
+
+import uno from "~/styles/uno.css";
+
+export const links: LinksFunction = () => ([
+  { rel: "stylesheet", href: reset },
+  { rel: "stylesheet", href: uno },
+]);
+
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "SKMS",
   viewport: "width=device-width,initial-scale=1",
 });
 
