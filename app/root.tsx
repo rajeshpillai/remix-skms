@@ -35,7 +35,8 @@ export default function App() {
       <body>
         <Link to={`/signup`}>Sign Up</Link>| 
         <Link to={`/login`}>Sign In</Link>|
-        <Link to={`/student`}>Create Student Record</Link>|
+        <Link to={`/admin/student/create`}>Create Student Record</Link>|
+        <Link to={`/admin/students`}>List Students</Link>|
         <hr/>
         <Outlet />
         <ScrollRestoration />

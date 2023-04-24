@@ -2,6 +2,9 @@ let path = require("node:path");
 let fastify = require("fastify");
 let { remixFastifyPlugin } = require("@mcansh/remix-fastify");
 
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
 let MODE = process.env.NODE_ENV;
 
 console.log("MODE: ", MODE);
@@ -13,15 +16,16 @@ async function start() {
     build: path.join(process.cwd(), "build/index.js"),
   });
   
-  // await app.register(remixFastifyPlugin, {
-  //   build: path.join(process.cwd(), "build/index.js"),
-  //   mode: MODE,
-  //   getLoadContext() {
-  //     return { loadContextName: "John Doe" };
-  //   },
-  //   purgeRequireCacheInDevelopment: false,
-  //   unstable_earlyHints: true,
-  // });
+  app.get('/api/students', async (request, reply) => {
+    try {
+      const students = await prisma.student.findMany();
+  
+      reply.code(200).send(students);
+    } catch (error) {
+      fastify.log.error(error);
+      reply.code(500).send({ message: 'Failed to fetch students' });
+    }
+  });
 
   let port = process.env.PORT ? Number(process.env.PORT) || 3000 : 3000;
 
