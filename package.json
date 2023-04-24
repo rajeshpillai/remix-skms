@@ -13,7 +13,8 @@
     "start": "cross-env NODE_ENV=production node ./server.js",
     "build:css": "npm run generate:css",
     "generate:css": "unocss './app/**/*.{js,ts,jsx,tsx}' -o ./app/styles/uno.css",
-    "dev:css": "npm run generate:css -- --watch"
+    "dev:css": "npm run generate:css -- --watch",
+    "seed": "node ./prisma/seed.js"
   },
   "dependencies": {
     "@mcansh/remix-fastify": "^2.7.2",
