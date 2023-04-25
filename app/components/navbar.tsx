@@ -2,7 +2,7 @@ import { Link } from "@remix-run/react";
 
 export default function () {
   return (
-    <header className="lg:px-16 px-8 bg-white flex flex-wrap items-center py-4 shadow-md">
+    <header className="lg:px-16 px-8 bg-white flex flex-wrap items-center py-1 shadow-md">
     <div className="flex-1 flex justify-between items-center">
       <Link to={`/`} className="text-xl">SKMS</Link>| 
     </div>
