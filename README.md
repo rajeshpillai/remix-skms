@@ -11,6 +11,11 @@ Clone the repo and run
 npm i 
 ```
 
+First time setup run  (Note that this will create recreate the DB)
+
+```sh
+npx prisma db push
+```
 
 To seed data for dev/testing
 

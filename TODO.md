@@ -9,3 +9,5 @@ List of features
 - [x] List Students
 - [x] Display student details
 - [ ] AuthProvider
+- [ ] Administrators/Teachers
+- [ ] Fees Collection
