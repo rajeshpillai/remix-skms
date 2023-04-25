@@ -1,6 +1,7 @@
 let path = require("node:path");
 let fastify = require("fastify");
 let { remixFastifyPlugin } = require("@mcansh/remix-fastify");
+const bcrypt = require('bcrypt');
 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -66,7 +67,41 @@ async function start() {
     }
   });
 
+  // Register user
 
+  app.post('/api/signup', async (request, reply) => {
+    try {
+      const { username, password } = request.body;
+
+      // Check if the user already exists
+      const existingUser = await prisma.user.findUnique({
+        where: { username },
+      });
+
+      if (existingUser) {
+        reply.code(400).send({ message: 'User already exists' });
+        console.error("User already exists");
+        return;
+      }
+
+      // Encrypt the password
+      const passwordHash = await bcrypt.hash(password, 10);
+
+      // Save the user to the database
+      const newUser = await prisma.user.create({
+        data: {
+          username,
+          passwordHash,
+        },
+      });
+
+      reply.code(201).send(newUser);
+    } catch (error) {
+      fastify.log.error(error);
+      console.error(error);
+      reply.code(500).send({ message: 'Failed to create user' });
+    }
+  });
 
   let port = process.env.PORT ? Number(process.env.PORT) || 3000 : 3000;
 

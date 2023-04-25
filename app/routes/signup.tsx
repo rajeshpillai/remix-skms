@@ -1,7 +1,38 @@
 // app/routes/signup.tsx
-import { Form } from '@remix-run/react';
+import { Form, useActionData } from '@remix-run/react';
+import  { redirect } from "@remix-run/node";
+
+import type { LoaderFunction, ActionFunction } from '@remix-run/react';
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const body = {};
+
+  for (const [key, value] of formData.entries()) {
+    body[key] = value;
+  }
+
+  const response = await fetch('http://localhost:3000/api/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (response.ok) {
+    console.log("Redirecting to login...");
+    throw redirect('/login');
+  }
+
+  const errorMessage = await response.json();
+  console.log("ERROR: ", errorMessage);
+  return errorMessage;
+  //return redirect('/signup', { status: 400, headers: { 'error-message': errorMessage.message } });
+};
 
 function SignupPage() {
+  const actionData = useActionData();
+  console.log("ActionData: ", actionData);
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-10 rounded shadow-lg">
@@ -16,32 +47,18 @@ function SignupPage() {
           className="mt-8 space-y-6"
         >
           <div className="rounded-md shadow-sm -space-y-px">
+            
             <div>
-              <label htmlFor="name" className="sr-only">
-                Full Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autoComplete="name"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Full Name"
-              />
-            </div>
-            <div>
-              <label htmlFor="email-address" className="sr-only">
+              <label htmlFor="username" className="sr-only">
                 Email address
               </label>
               <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="username"
+                name="username"
+                type="text"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                placeholder="Username"
               />
             </div>
             <div>
@@ -68,6 +85,7 @@ function SignupPage() {
               Sign up
             </button>
           </div>
+          {actionData && <h4 className="text-red-600">User already exists!</h4>}
         </Form>
       </div>
     </div>
