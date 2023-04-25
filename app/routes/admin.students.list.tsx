@@ -1,7 +1,16 @@
-// app/routes/admin/students.tsx
+import type { LinksFunction, LoaderArgs} from "@remix-run/node";
+import  { redirect, json } from "@remix-run/node";
 import { Link, LoaderFunction, useLoaderData } from '@remix-run/react';
+import { db } from "~/utils/db.server";
+import { getUser } from "~/utils/session.server";
 
-export const loader: LoaderFunction = async () => {
+export const loader = async ({ request }: LoaderArgs) => {
+  const user = await getUser(request);
+  if (!user) {
+    console.log("Redirecting to login...");
+    return redirect("/login");
+  }
+
   const res = await fetch('http://localhost:3000/api/students');
   const students = await res.json();
   return students;

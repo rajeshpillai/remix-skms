@@ -1,6 +1,22 @@
-import  { redirect } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs} from "@remix-run/node";
+import  { redirect, json } from "@remix-run/node";
 import { Link, Form, useActionData } from "@remix-run/react";
 import { badRequest } from "~/utils/request.server";
+
+import { db } from "~/utils/db.server";
+import { getUser } from "~/utils/session.server";
+
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const user = await getUser(request);
+  console.log("User: ", user);
+  // return json({ user });
+  if (!user) {
+    console.log("Redirecting to login...");
+    return redirect("/login");
+  }
+  return user;
+};
 
 function validateDob (dob) {
   console.log("DOB: ", dob);
