@@ -13,6 +13,7 @@ import {
 import reset from "@unocss/reset/tailwind.css";
 
 import uno from "~/styles/uno.css";
+import Navbar from "./components/navbar";
 
 export const links: LinksFunction = () => ([
   { rel: "stylesheet", href: reset },
@@ -33,12 +34,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Link to={`/`}>SKMS</Link>| 
-        <Link to={`/signup`}>Sign Up</Link>| 
-        <Link to={`/login`}>Sign In</Link>|
-        <Link to={`/admin/students/create`}>Create Student Record</Link>|
-        <Link to={`/admin/students/list`}>List Students</Link>|
-        <hr/>
+        <Navbar />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
