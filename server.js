@@ -1,7 +1,7 @@
 let path = require("node:path");
 let fastify = require("fastify");
 let { remixFastifyPlugin } = require("@mcansh/remix-fastify");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -52,13 +52,11 @@ async function start() {
   app.post('/api/students', async (request, reply) => {
     try {
       const studentData = request.body;
-      if (!studentData.dateOfBirth.trim() === "") {
-        studentData.dateOfBirth = new Date(studentData.dateOfBirth);
-      }
+      studentData.dateOfBirth = new Date(studentData.dateOfBirth).toISOString();
+      console.log("DOB: ", studentData.dateOfBirth);
       studentData.address = studentData.primaryAddress;
       console.log("StudentData3: ", studentData);
       const createdStudent = await prisma.student.create({ data: studentData });
-      console.log("CreatedStudent: ", createdStudent);
       reply.code(201).send(createdStudent);
     } catch (error) {
       // app.log.error(error);

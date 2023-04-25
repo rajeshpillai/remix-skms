@@ -1,7 +1,30 @@
 // app/routes/login.tsx
-import { Form } from '@remix-run/react';
+import { Form, useActionData } from '@remix-run/react';
+import type { ActionArgs, LinksFunction} from "@remix-run/node";
+
+import { createUserSession, login, register} from "~/utils/session.server";
+
+
+export const action = async ({ request }: ActionArgs) => {
+  const form = await request.formData();
+  const password = form.get("password");
+  const username = form.get("username");
+
+  if (typeof password !== "string" || typeof username !== "string"){
+      return "Form not submitted correctly.";
+  }
+
+  const user = await login({ username, password });
+  console.log({ user });
+  if (!user) {
+    return "Username/Password combination is incorrect";
+  }
+  return createUserSession(user.id, "/admin/students/list");
+};
 
 function LoginPage() {
+  const actionData = useActionData<typeof action>();
+  console.log(actionData);
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-10 rounded shadow-lg">
@@ -18,17 +41,16 @@ function LoginPage() {
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
+              <label htmlFor="username" className="sr-only">
+                Username
               </label>
               <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="username"
+                name="username"
+                type="text"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                placeholder="Username"
               />
             </div>
             <div>
@@ -58,6 +80,7 @@ function LoginPage() {
             </div>
           </div>
 
+          {actionData && <h4 className="text-red-800">{actionData} </h4>}
           <div>
             <button
               type="submit"

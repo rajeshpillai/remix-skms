@@ -16,19 +16,23 @@ export const action = async ({ request }) => {
   const lastName = formData.get("lastName");
   const dateOfBirth = formData.get("dateOfBirth");
 
-  const fieldErrors = {
-    dateOfBirth: validateDob(dateOfBirth)
-  };
-  const fields = { dateOfBirth };
-  if (Object.values(fieldErrors).some(Boolean)) {
-    const err =  badRequest({
-      fieldErrors,
-      fields,
-      formError: null,
-    });
-    console.log("ERR: ", err);
-    return err;
+  if (formData.get("dateOfBirth") == "") {
+    formData.set("dateOfBirth", null);
   }
+
+  // const fieldErrors = {
+  //   dateOfBirth: validateDob(dateOfBirth)
+  // };
+  // const fields = { dateOfBirth };
+  // if (Object.values(fieldErrors).some(Boolean)) {
+  //   const err =  badRequest({
+  //     fieldErrors,
+  //     fields,
+  //     formError: null,
+  //   });
+  //   console.log("ERR: ", err);
+  //   return err;
+  // }
 
   console.log({firstName, middleName, lastName});
   console.log("Student Record: ", JSON.stringify(Object.fromEntries(formData)));

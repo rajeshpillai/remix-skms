@@ -18,7 +18,7 @@ model Student {
   lastName      String
   middleName    String?
   gender        String
-  dateOfBirth   DateTime
+  dateOfBirth   DateTime?
   primaryAddress String
   fathersName   String
   mothersName   String
