@@ -8,7 +8,7 @@ import { createUserSession, login, register} from "~/utils/session.server";
 export const action = async ({ request }: ActionArgs) => {
   const form = await request.formData();
   const password = form.get("password");
-  const username = form.get("username");
+  const username = form.get("username").trim();
 
   if (typeof password !== "string" || typeof username !== "string"){
       return "Form not submitted correctly.";
